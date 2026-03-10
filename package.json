@@ -1,0 +1,56 @@
+{
+  "name": "@p0qp0q/voxel-skinner",
+  "version": "0.1.0",
+  "description": "Voxel geodesic skinning weights for 3D character meshes. The first standalone browser-native library for automatic skin weight computation using volumetric geodesic distance.",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./Voxelizer": "./src/Voxelizer.js",
+    "./GeodesicSolver": "./src/GeodesicSolver.js",
+    "./WeightExtractor": "./src/WeightExtractor.js",
+    "./VoxelGrid": "./src/VoxelGrid.js"
+  },
+  "files": [
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node test/test-cube.mjs",
+    "test:cylinder": "node test/test-cylinder.mjs",
+    "test:humanoid": "node test/test-humanoid.mjs",
+    "bench": "node test/benchmark.mjs"
+  },
+  "keywords": [
+    "skinning",
+    "skin-weights",
+    "voxel",
+    "geodesic",
+    "rigging",
+    "3d",
+    "animation",
+    "skeleton",
+    "bone-heat",
+    "threejs",
+    "babylonjs",
+    "webgl",
+    "character-rigging",
+    "auto-skinning"
+  ],
+  "author": "Allen Partridge <allen@poqpoq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/increasinglyHuman/poqpoq-voxel-skinner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/increasinglyHuman/poqpoq-voxel-skinner/issues"
+  },
+  "homepage": "https://github.com/increasinglyHuman/poqpoq-voxel-skinner#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {}
+}
