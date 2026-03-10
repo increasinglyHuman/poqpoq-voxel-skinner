@@ -24,7 +24,7 @@ import { VoxelState } from './VoxelGrid.js';
  * @param {boolean} [options.use26Connected=false] - Use 26-connected neighbors
  *   instead of 6-connected. More accurate but ~4x slower.
  * @param {function} [options.onProgress] - Callback(boneIndex, totalBones)
- * @returns {Float32Array[]} Array of distance fields, one per bone.
+ * @returns {Float64Array[]} Array of distance fields, one per bone.
  *   Each is a flat Float32Array of grid.totalVoxels length.
  *   Infinity = unreachable, 0 = on the bone.
  */
@@ -52,7 +52,7 @@ export function computeGeodesicDistances(grid, bones, options = {}) {
  * @param {VoxelGrid} grid
  * @param {{head: number[], tail: number[]}} bone
  * @param {Object} [options]
- * @returns {Float32Array}
+ * @returns {Float64Array}
  */
 export function computeSingleBoneDistance(grid, bone, options = {}) {
   const { use26Connected = false } = options;
@@ -132,12 +132,12 @@ function findBoneVoxels(grid, bone) {
  * @param {VoxelGrid} grid
  * @param {number[]} seedIndices - Starting voxel indices (distance = 0)
  * @param {boolean} use26 - Use 26-connected vs 6-connected neighbors
- * @returns {Float32Array} Distance from bone to each voxel (Infinity if unreachable)
+ * @returns {Float64Array} Distance from bone to each voxel (Infinity if unreachable)
  */
 function dijkstra(grid, seedIndices, use26) {
   const { resX, resY, resZ, totalVoxels, voxelSize, state } = grid;
 
-  const dist = new Float32Array(totalVoxels);
+  const dist = new Float64Array(totalVoxels);
   dist.fill(Infinity);
 
   if (seedIndices.length === 0) return dist;
@@ -161,8 +161,7 @@ function dijkstra(grid, seedIndices, use26) {
     const { index: cur, priority: curDist } = heap.pop();
 
     // Skip if we already found a shorter path
-    // NOTE: Use epsilon comparison — Float32Array truncates the double stored in the heap
-    if (curDist > dist[cur] + 1e-6) continue;
+    if (curDist > dist[cur]) continue;
 
     // Visit neighbors
     for (let n = 0; n < neighbors.length; n++) {

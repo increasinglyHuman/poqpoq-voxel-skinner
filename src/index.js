@@ -48,7 +48,7 @@ import { extractWeights } from './WeightExtractor.js';
  *   skinIndices: Uint16Array,
  *   skinWeights: Float32Array,
  *   grid: VoxelGrid,
- *   distanceFields: Float32Array[],
+ *   distanceFields: Float64Array[],
  *   stats: Object
  * }}
  */

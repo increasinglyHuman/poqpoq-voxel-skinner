@@ -20,7 +20,7 @@
  * Extract skin weights from geodesic distance fields.
  *
  * @param {VoxelGrid} grid - The classified voxel grid
- * @param {Float32Array[]} distanceFields - Per-bone distance fields from GeodesicSolver
+ * @param {Float64Array[]} distanceFields - Per-bone distance fields from GeodesicSolver
  * @param {Float32Array|number[]} positions - Flat vertex positions [x,y,z, ...]
  * @param {Object} [options]
  * @param {number} [options.maxInfluences=4] - Max bone influences per vertex
