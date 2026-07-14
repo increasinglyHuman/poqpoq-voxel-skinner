@@ -1,18 +1,18 @@
 /**
- * @p0qp0q/voxel-skinner
+ * @poqpoq/voxel-skinner
  *
  * Voxel geodesic skin weight computation for 3D character meshes.
  * The first standalone browser-native library for automatic skin weighting
  * using volumetric geodesic distance.
  *
  * Usage:
- *   import { computeSkinWeights } from '@p0qp0q/voxel-skinner';
+ *   import { computeSkinWeights } from '@poqpoq/voxel-skinner';
  *
  *   const result = computeSkinWeights(positions, indices, bones, { resolution: 64 });
  *   // result.skinIndices — Uint16Array, 4 bone indices per vertex
  *   // result.skinWeights — Float32Array, 4 weight values per vertex
  *
- * @module @p0qp0q/voxel-skinner
+ * @module @poqpoq/voxel-skinner
  */
 
 export { VoxelGrid, VoxelState } from './VoxelGrid.js';
@@ -61,6 +61,29 @@ export function computeSkinWeights(positions, indices, bones, options = {}) {
     use26Connected = false,
     onProgress,
   } = options;
+
+  // ── Input validation — fail loud on malformed input rather than silently
+  //    producing NaN weights or attempting a runaway allocation downstream. ──
+  if (!positions || typeof positions.length !== 'number' || positions.length < 9) {
+    throw new TypeError(
+      'computeSkinWeights: positions must be a non-empty flat array [x,y,z, ...] with at least one triangle (9 floats).'
+    );
+  }
+  if (positions.length % 3 !== 0) {
+    throw new RangeError(
+      `computeSkinWeights: positions.length (${positions.length}) must be a multiple of 3.`
+    );
+  }
+  if (!bones || typeof bones.length !== 'number' || bones.length === 0) {
+    throw new TypeError(
+      'computeSkinWeights: bones must be a non-empty array of { head:[x,y,z], tail:[x,y,z] }.'
+    );
+  }
+  if (!Number.isFinite(resolution) || resolution < 1) {
+    throw new RangeError(
+      `computeSkinWeights: resolution must be a finite number >= 1 (got ${resolution}).`
+    );
+  }
 
   const t0 = performance.now();
 

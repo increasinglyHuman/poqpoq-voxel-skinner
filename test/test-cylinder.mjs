@@ -77,7 +77,7 @@ const bones = [
 ];
 
 console.log('═══════════════════════════════════════════');
-console.log(' @p0qp0q/voxel-skinner — Cylinder Test');
+console.log(' @poqpoq/voxel-skinner — Cylinder Test');
 console.log(' (Central Bone Starvation Validation)');
 console.log('═══════════════════════════════════════════\n');
 

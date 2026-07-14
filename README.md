@@ -1,8 +1,10 @@
-# @p0qp0q/voxel-skinner
+# @poqpoq/voxel-skinner
 
 Voxel geodesic skin weight computation for 3D character meshes.
 
 The first standalone browser-native JavaScript library for automatic skin weight computation using volumetric geodesic distance. No native dependencies, no WASM, no GPU required.
+
+> _Part of the [BlackBox creative suite](https://poqpoq.com) by [p0qp0q](https://poqpoq.com) — AI-first tools for rigging, animating, and populating 3D worlds._
 
 ## The Problem
 
@@ -17,7 +19,7 @@ Based on: Dionne & de Lasa, "Geodesic Voxel Binding for Production Character Mes
 ## Quick Start
 
 ```js
-import { computeSkinWeights } from '@p0qp0q/voxel-skinner';
+import { computeSkinWeights } from '@poqpoq/voxel-skinner';
 
 // positions: Float32Array [x,y,z, x,y,z, ...]
 // indices: Uint32Array [i0,i1,i2, ...] (triangle indices)
@@ -68,9 +70,9 @@ Mesh Triangles ──> Voxelizer ──> GeodesicSolver ──> WeightExtractor 
 Each module can be used independently:
 
 ```js
-import { voxelize } from '@p0qp0q/voxel-skinner/Voxelizer';
-import { computeGeodesicDistances } from '@p0qp0q/voxel-skinner/GeodesicSolver';
-import { extractWeights } from '@p0qp0q/voxel-skinner/WeightExtractor';
+import { voxelize } from '@poqpoq/voxel-skinner/Voxelizer';
+import { computeGeodesicDistances } from '@poqpoq/voxel-skinner/GeodesicSolver';
+import { extractWeights } from '@poqpoq/voxel-skinner/WeightExtractor';
 ```
 
 ## Options
@@ -120,7 +122,7 @@ Ring  │  Y     │ Hips    │ Spine   │ Chest   │ Primary
 ## Integration with Three.js
 
 ```js
-import { computeSkinWeights } from '@p0qp0q/voxel-skinner';
+import { computeSkinWeights } from '@poqpoq/voxel-skinner';
 
 // After loading an unrigged mesh and creating a skeleton:
 const geometry = mesh.geometry;
@@ -148,9 +150,15 @@ geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(skinIndices, 
 geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(skinWeights, 4));
 ```
 
+## Known limitations
+
+- **Nearest-voxel weight sampling** — each vertex reads the geodesic distance of the single voxel it occupies, so very dense meshes at low `resolution` can show slight faceting at bone boundaries. Raise `resolution`, or watch for trilinear field sampling (roadmap).
+- **Sequential bone solve** — distance fields are computed one bone at a time on the CPU. They're fully independent, so Web Worker parallelism is the natural speedup (roadmap).
+- **Safety cap** — grids above ~64M voxels (`resolution` far beyond 128 on a cubic mesh) throw a `RangeError` rather than risk an out-of-memory crash.
+
 ## Roadmap
 
-- **v0.2**: Web Worker support (parallel bone distance computation)
+- **v0.2**: Web Worker support (parallel bone distance computation) + trilinear weight sampling
 - **v0.3**: WebGL2 GPU acceleration (GPGPU ping-pong for distance crawl)
 - **v0.4**: WebGPU compute shader path
 - **v1.0**: Ray-cast visibility gating (Blender-style normal-weighted distance)
@@ -164,4 +172,6 @@ geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(skinWeights
 
 ## License
 
-MIT
+MIT © [Allen Partridge (p0qp0q)](https://poqpoq.com)
+
+Built as part of the [BlackBox creative suite](https://poqpoq.com) — see also [Animator](https://poqpoq.com/animator/) (GLB animation + IK) and [Skinner](https://poqpoq.com/skinner/) (vertex weight painting).

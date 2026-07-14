@@ -51,6 +51,24 @@ export class VoxelGrid {
 
     this.totalVoxels = this.resX * this.resY * this.resZ;
 
+    // Guard against degenerate or runaway grids before allocating. A non-finite
+    // extent (empty / NaN positions) or an oversized `resolution` would otherwise
+    // attempt a multi-gigabyte allocation and hard-crash the tab / process.
+    if (!Number.isFinite(this.totalVoxels) || this.totalVoxels <= 0) {
+      throw new RangeError(
+        `VoxelGrid: degenerate grid (${this.resX}×${this.resY}×${this.resZ}). ` +
+        `Check that mesh positions are finite and non-empty.`
+      );
+    }
+    const MAX_VOXELS = 64_000_000; // ~400³ — far above any realistic resolution, blocks OOM
+    if (this.totalVoxels > MAX_VOXELS) {
+      throw new RangeError(
+        `VoxelGrid: ${this.totalVoxels.toLocaleString()} voxels ` +
+        `(${this.resX}×${this.resY}×${this.resZ}) exceeds the safety cap of ` +
+        `${MAX_VOXELS.toLocaleString()}. Lower the 'resolution' option.`
+      );
+    }
+
     // State grid: EMPTY / BOUNDARY / INTERIOR
     this.state = new Uint8Array(this.totalVoxels);
 

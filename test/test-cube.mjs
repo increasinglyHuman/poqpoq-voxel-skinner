@@ -46,7 +46,7 @@ const bones = [
 ];
 
 console.log('═══════════════════════════════════════');
-console.log(' @p0qp0q/voxel-skinner — Cube Test');
+console.log(' @poqpoq/voxel-skinner — Cube Test');
 console.log('═══════════════════════════════════════\n');
 
 // ── Test 1: Voxelization ──

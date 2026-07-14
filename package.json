@@ -1,5 +1,5 @@
 {
-  "name": "@p0qp0q/voxel-skinner",
+  "name": "@poqpoq/voxel-skinner",
   "version": "0.1.0",
   "description": "Voxel geodesic skinning weights for 3D character meshes. The first standalone browser-native library for automatic skin weight computation using volumetric geodesic distance.",
   "type": "module",
@@ -19,9 +19,7 @@
   ],
   "scripts": {
     "test": "node test/test-cube.mjs",
-    "test:cylinder": "node test/test-cylinder.mjs",
-    "test:humanoid": "node test/test-humanoid.mjs",
-    "bench": "node test/benchmark.mjs"
+    "test:cylinder": "node test/test-cylinder.mjs"
   },
   "keywords": [
     "skinning",
